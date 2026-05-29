@@ -1,18 +1,23 @@
 import { decode } from 'next-auth/jwt';
 import { cookies } from "next/headers";
 
-export async function getUserToken(){
-    const decodeToken = (await cookies()).get('next-auth.session-token')?.value;
-    
-    if (!decodeToken) return null;
+export async function getUserToken() {
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get('next-auth.session-token')?.value;
+        
+        if (!token) return null;
 
-    const sessionData: any = await decode({
-        token: decodeToken, 
-        secret: process.env.NEXTAUTH_SECRET!
-    });
-    
-    // 🌟 الإصلاح السحري هنا:
-    // بما أنك وضعت البيانات داخل token.user في كود الـ callbacks،
-    // إذن المسار الصحيح للتوكن الخاص بـ RouteMisr هو:
-    return sessionData?.user?.token || null; 
+        const decoded = await decode({
+            token, 
+            secret: process.env.NEXTAUTH_SECRET!
+        });
+        
+        // التحقق من وجود البيانات قبل إرجاعها
+        return (decoded as any)?.user?.token || null;
+        
+    } catch (error) {
+        console.error("Error decoding token:", error);
+        return null;
+    }
 }
