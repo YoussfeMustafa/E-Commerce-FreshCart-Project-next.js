@@ -14,29 +14,27 @@ import Image from 'next/image';
 export default function SignUp() {
 
   const router = useRouter();
-
-  async function handelRegister(data: RegisterSchemaType) {
-    console.log(data);
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`, {
+async function handelRegister(data: RegisterSchemaType) {
+  try {
+    const response = await fetch("https://ecommerce.routemisr.com/api/v1/auth/signup", {
       method: "POST",
       body: JSON.stringify(data),
-      headers: { "content-type": "application/json" }
+      headers: { "Content-Type": "application/json" }
     });
+    
     const finalData = await response.json();
-    console.log(finalData);
-    try {
-      toast.success('Successfully toasted!', { position: 'top-center' });
-    } catch (error) {
-
-      toast.error("This didn't work.", { position: 'top-center' });
-
+    
+    if (response.ok) {
+      toast.success('Account created successfully!');
+      router.push("/SignIn");
+    } else {
+      // عرض الخطأ القادم من الـ API (مثل "Email already exists")
+      toast.error(finalData.message || "Registration failed");
     }
-    router.push("/SignIn");
-
-
+  } catch (error) {
+    toast.error("Something went wrong, please try again.");
   }
-
+}
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
