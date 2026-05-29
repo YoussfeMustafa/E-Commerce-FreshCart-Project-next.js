@@ -1,8 +1,7 @@
 export const getAllProducts = async () => {
-  const response = await fetch(
-    `https://ecommerce.routemisr.com/api/v1/products`, 
-    { cache: 'force-cache' }
-  );
+  const response = await fetch("https://ecommerce.routemisr.com/api/v1/products", {
+    cache: 'no-store' 
+  });
   
   if (!response.ok) {
     throw new Error('Failed to fetch products');
