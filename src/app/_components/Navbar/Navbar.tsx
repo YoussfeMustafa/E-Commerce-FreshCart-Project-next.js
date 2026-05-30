@@ -8,17 +8,15 @@ import SearchBar from './Search/page';
 import { CartContext } from '@/context/CartContext';
 
 export default function Navbar() {
-  // جلب البيانات من الـ Context (تأكد أن الـ Provider يمرر CartCount و updateCartCount)
   const { CartCount, WishlistCount = 0, updateCartCount } = useContext(CartContext);
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, status } = useSession();
 
-  // تحديث بيانات السلة عند تغير حالة الجلسة (تسجيل الدخول/الخروج)
   useEffect(() => {
     if (status === "authenticated") {
       updateCartCount();
     }
-  }, [status]); 
+  }, [status]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
@@ -58,8 +56,9 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <SearchBar/>
+        <SearchBar />
 
+        {/* القائمة المنسدلة */}
         <div className={`${isOpen ? "absolute top-full left-0 w-full bg-white p-6 border-b shadow-xl flex flex-col gap-6" : "hidden"} md:flex md:static md:w-auto md:bg-transparent md:p-0 md:shadow-none md:flex-row items-center gap-6 font-semibold text-gray-700`}>
           {["Home", "Products", "Categories", "Brands"].map((item) => (
             <Link key={item} href={item === "Home" ? "/" : `/${item.toLowerCase()}`} className="hover:text-green-600 transition-colors">{item}</Link>
@@ -69,6 +68,15 @@ export default function Navbar() {
             <div className="bg-green-100 p-1.5 rounded-full text-green-800"><i className="fa-solid fa-headset"></i></div>
             <div className="flex flex-col"><span className="text-[10px] text-gray-400">Support</span><span className="text-xs">24/7 Help</span></div>
           </Link>
+
+          {/* إضافة تسجيل الدخول هنا لتظهر في الموبايل فقط */}
+          <div className="md:hidden flex flex-col gap-3 w-full border-t pt-4">
+            {status === "loading" ? null : session ? (
+              <button onClick={() => signOut()} className="flex items-center gap-2 text-red-600 font-bold"><LogOut size={20} /> Sign Out</button>
+            ) : (
+              <Link href="/SignIn" className="flex items-center gap-2 text-green-700 font-bold"><LogIn size={20} /> Sign In</Link>
+            )}
+          </div>
 
           <div className="hidden md:block h-8 w-[1px] bg-gray-300"></div>
         </div>
