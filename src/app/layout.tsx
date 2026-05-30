@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "./app/_components/Navbar/Navbar";
-import FooterAllComponent from "./app/_components/FooterAllComponent/FooterAllComponent";
+import Navbar from "./_components/Navbar/Navbar";
+import FooterAllComponent from "./_components/FooterAllComponent/FooterAllComponent";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/provider/auth-provider";
 import { CartContextProvider } from "@/context/CartContext";
@@ -29,13 +29,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* الحل الجذري للرسالة الحمراء: استيراد FontAwesome عبر CDN */}
+      <script>
         <link 
           rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         />
-      </head>
+      </script>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}>
         <AuthProvider>
           <CartContextProvider>

@@ -1,6 +1,7 @@
-import CredentialsProvider from "next-auth/providers/credentials"; // هذا هو السطر المفقود!
+import CredentialsProvider from "next-auth/providers/credentials";
+import { AuthOptions, SessionStrategy } from "next-auth"; // استيراد الأنواع
 
-export const authOptions = {
+export const authOptions: AuthOptions = { // إضافة النوع هنا
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -8,7 +9,6 @@ export const authOptions = {
         email: { label: "Email", type: "email" },
         password: { type: "password" },
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async authorize(credentials: any) {
         const res = await fetch(
           "https://ecommerce.routemisr.com/api/v1/auth/signin",
@@ -23,11 +23,10 @@ export const authOptions = {
         );
         const data = await res.json();
         
-        // التعديل هنا: نقوم بدمج التوكن مع بيانات المستخدم
         if (res.ok && data?.user) {
           return {
-            ...data.user,      // الاسم، الإيميل، إلخ
-            token: data.token, // <--- إضافة التوكن هنا ليصبح جزءاً من كائن الـ user
+            ...data.user,
+            token: data.token,
           };
         }
         return null;
@@ -35,19 +34,19 @@ export const authOptions = {
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy, // التعديل الضروري لمنع خطأ الـ build
   },
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
-        token.user = user; // سيحتوي الآن على الاسم + التوكن
+        token.user = user;
       }
       return token;
     },
     async session({ session, token }: any) {
       if (token?.user) {
         session.user = token.user;
-        (session as any).token = token.user.token; // التوكن الآن أصبح متاحاً في session.token
+        (session as any).token = (token.user as any).token;
       }
       return session;
     },
