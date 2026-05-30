@@ -28,7 +28,23 @@ export default function SignIn() {
 
 
   async function handelRegister(data: LoginSchemaType) {
-   
+    // console.log(data);
+
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signin`, {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    //   headers: { "content-type": "application/json" }
+    // });
+    // const finalData = await response.json();
+    // console.log(finalData);
+    // try {
+    //   toast.success('Successfully toasted!' ,{position:'top-center'})
+    // } catch (error) {
+
+    //   toast.error("This didn't work.",{position:'top-center'})
+
+    // }
+    // router.push("/")
 
     const response = await signIn('credentials', {
       email: data.email,

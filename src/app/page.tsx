@@ -1,18 +1,30 @@
-import { getAllProducts } from "@/API/AllProducts.Api";
-import SingleCard from "./_components/SingleCard/SingleCard";
-// ... باقي الاستيرادات ...
+import CategorySlider from "./_components/CategorySlider/CategorySlider";
+import Products from "./(pages)/products/page";
+import BackgroundImage from "./_components/BackgroundImage/BackgroundImage";
+import SectionHome from "./_components/SectionHome/SectionHome";
+import MobileApp from "./_components/MobileApp/mobileApp";
 
-export default async function Home() {
-  const data = await getAllProducts();
 
+
+export default function Home() {
   return (
     <>
-      {/* ... الكود الخاص بك ... */}
-      <div className="flex flex-wrap">
-        {data.map((product: any) => (
-          <SingleCard key={product.id} CurrentProduct={product} />
-        ))}
+
+      <BackgroundImage />
+
+
+
+      <CategorySlider />
+      <SectionHome />
+      <div className="w-[95%] mx-auto mt-15 my-3">
+        <h2 className="font-bold text-4xl tracking-tight text-gray-900">
+        Featured <span className="text-teal-800">Products</span>
+    </h2>
       </div>
+      <Products />
+      <MobileApp />
+
+
     </>
   );
 }

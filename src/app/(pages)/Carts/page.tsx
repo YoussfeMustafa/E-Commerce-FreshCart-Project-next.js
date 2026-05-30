@@ -8,9 +8,10 @@ import { CartContext } from "@/context/CartContext";
 import toast from 'react-hot-toast';
 
 export default function CartPage() {
+
     const { status } = useSession();
-    const [cartData, setCartData] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const { cartData, setCartData, updateCartCount } = useContext(CartContext);
+     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // استخدام الـ Context لتحديث العداد
     const { setCartCount } = useContext(CartContext);
@@ -64,38 +65,33 @@ export default function CartPage() {
         });
     };
     async function deletetoCart(productId: string) {
-        // إشعار تحميل (اختياري)
-        const loadingToast = toast.loading("Removing item...");
+    const loadingToast = toast.loading("Removing item...");
 
-        try {
-            const response = await handelRemoveToCart(productId);
+    try {
+        const response = await handelRemoveToCart(productId);
 
-            if (response?.status === "success") {
-                setCartData(response.data);
+        if (response?.status === "success") {
+            // 1. تحديث بيانات السلة في الـ Context (هذا سيجعل BuyCart تتحدث تلقائياً)
+            setCartData(response.data); 
+            
+            // 2. تحديث عداد السلة في الـ Navbar فوراً
+            updateCartCount(); 
 
-                // إشعار نجاح
-                toast.success("Product removed successfully!", {
-                    id: loadingToast, // يستخدم نفس الـ ID لإغلاق إشعار التحميل
-                    position: "top-center"
-                });
-            } else {
-                // إشعار خطأ في حال فشل السيرفر
-                toast.error(response?.message || "Failed to remove product", {
-                    id: loadingToast,
-                    position: "top-center"
-                });
-            }
-        } catch (error) {
-            console.error("حدث خطأ أثناء حذف المنتج:", error);
-
-            // إشعار خطأ في حال حدوث استثناء (Exception)
-            toast.error("Something went wrong. Please try again.", {
+            toast.success("Product removed successfully!", {
+                id: loadingToast,
+                position: "top-center"
+            });
+        } else {
+            toast.error(response?.message || "Failed to remove product", {
                 id: loadingToast,
                 position: "top-center"
             });
         }
+    } catch (error) {
+        console.error("Error:", error);
+        toast.error("Something went wrong.", { id: loadingToast });
     }
-
+}
     if (status === "loading" || isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">

@@ -3,9 +3,9 @@ import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ShoppingCart, Heart, Truck, Gift, LogIn, UserPlus, LogOut } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
-import { CartContext } from '@/context/CartContext';
 import { FaShoppingCart } from "react-icons/fa";
 import SearchBar from './Search/page';
+import { CartContext } from '@/context/CartContext';
 
 export default function Navbar() {
   // جلب البيانات من الـ Context (تأكد أن الـ Provider يمرر CartCount و updateCartCount)

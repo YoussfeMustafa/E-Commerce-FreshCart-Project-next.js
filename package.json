@@ -13,6 +13,7 @@
     "@heroui/react": "^2.8.10",
     "@hookform/resolvers": "^5.2.2",
     "animate.css": "^4.1.1",
+    "axios": "^1.16.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
