@@ -90,7 +90,7 @@ export default function Support() {
                             <input type="text" placeholder="Full Name" className=" w-full bg-gray-50 p-4 rounded-xl outline-none border border-gray-100 focus:border-green-500 transition-all" />
                             <input type="email" placeholder="Email Address" className="w-full bg-gray-50 p-4 rounded-xl outline-none border border-gray-100 focus:border-green-500 transition-all" />
                         </div>
-                        <textarea placeholder="How can we help you?" rows="5" className="w-full bg-gray-50 p-4 rounded-xl outline-none border border-gray-100 focus:border-green-500 transition-all"></textarea>
+                        <textarea placeholder="How can we help you?" rows={5} className="w-full bg-gray-50 p-4 rounded-xl outline-none border border-gray-100 focus:border-green-500 transition-all"></textarea>
                         <button className="bg-green-800 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-600 transition-all">
                             Send Message
                         </button>

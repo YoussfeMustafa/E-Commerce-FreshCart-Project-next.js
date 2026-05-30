@@ -1,9 +1,9 @@
-import { TypeCategory } from "@/types/CategoryHome.Type";
+import { CategoryHomeType, TypeCategory } from "@/types/CategoryHome.Type";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CategoryMain({ data }: { data: TypeCategory[]; }) {
+export default function CategoryMain({ data }: { data: CategoryHomeType[] }) {
   return (
     <>
       <div className="bg-gradient-to-b from-green-700 via-green-600 to-green-500 w-full h-60 flex items-center   ">
