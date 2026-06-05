@@ -18,7 +18,7 @@ export default function Navbar() {
     }
   }, [status]);
 
-  return (
+  return ( 
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
       {/* 1. الشريط العلوي (Top Bar) */}
       <div className="hidden md:block bg-gray-50 border-b border-gray-100 py-2">

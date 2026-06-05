@@ -14,6 +14,7 @@ export default function AddToCartBtn({ productId }: { productId: string; }) {
         try {
             setIsLoading(true);
             const response = await handelAddtocart(productId);
+            console.log("API Response:", response); // أضف هذا السطر
 
             if (response && response.status === "success") {
                 toast.success(response.message || 'Product added successfully!', {
