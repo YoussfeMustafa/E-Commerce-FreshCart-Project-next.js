@@ -18,7 +18,7 @@ export default function Navbar() {
     }
   }, [status]);
 
-  return ( 
+  return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
       {/* 1. الشريط العلوي (Top Bar) */}
       <div className="hidden md:block bg-gray-50 border-b border-gray-100 py-2">
@@ -100,17 +100,22 @@ export default function Navbar() {
 
           <div className="hidden md:block h-8 w-[1px] bg-gray-300"></div>
 
-          <div className="hidden md:flex items-center">
+          {/* حذفنا hidden وأضفنا flex لتظهر في كل الشاشات */}
+          <div className="flex items-center gap-2">
             {status === "loading" ? (
               <div className="w-20 h-8 bg-gray-100 animate-pulse rounded"></div>
             ) : session ? (
-              <div className="flex items-center gap-3 font-bold text-sm">
-                <span className="text-green-600 truncate max-w-[80px]">{session.user?.name}</span>
-                <button onClick={() => signOut()} className="text-gray-500 hover:text-red-600"><LogOut size={20} /></button>
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
+                <span className="text-green-600 truncate max-w-[70px] sm:max-w-[120px]">
+                  {session.user?.name}
+                </span>
+                <button onClick={() => signOut()} className="text-gray-500 hover:text-red-600">
+                  <LogOut size={18} />
+                </button>
               </div>
             ) : (
-              <Link href="/SignIn" className="text-white bg-green-700 px-5 py-2.5 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-green-800 transition-all">
-                <LogIn size={18} /> Sign in
+              <Link href="/SignIn" className="text-white bg-green-700 px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm flex items-center gap-1 sm:gap-2 hover:bg-green-800 transition-all">
+                <LogIn size={16} /> Sign in
               </Link>
             )}
           </div>
