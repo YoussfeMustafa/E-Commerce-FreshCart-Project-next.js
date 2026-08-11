@@ -15,26 +15,32 @@ export default function SignUp() {
 
   const router = useRouter();
 
-  async function handelRegister(data: RegisterSchemaType) {
+ async function handelRegister(data: RegisterSchemaType) {
     console.log(data);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "content-type": "application/json" }
-    });
-    const finalData = await response.json();
-    console.log(finalData);
     try {
-      toast.success('Successfully toasted!', { position: 'top-center' });
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "content-type": "application/json" }
+      });
+      
+      const finalData = await response.json();
+      console.log("API Response:", finalData);
+
+      // التحقق مما إذا كانت الاستجابة ناجحة (حسب الـ API الخاص بـ FreshCart غالباً بيكون message === 'success' أو response.ok)
+      if (response.ok && (finalData.message === 'success' || finalData.user)) {
+        toast.success('تم إنشاء الحساب بنجاح!', { position: 'top-center' });
+        router.push("/SignIn");
+      } else {
+        // إذا حدث خطأ من الـ API (مثل البريد مستخدم مسبقاً)
+        toast.error(finalData.message || "فشل إنشاء الحساب، تأكد من البيانات", { position: 'top-center' });
+      }
+
     } catch (error) {
-
-      toast.error("This didn't work.", { position: 'top-center' });
-
+      console.error("Signup Error:", error);
+      toast.error("حدث خطأ في الاتصال بالخادم", { position: 'top-center' });
     }
-    router.push("/SignIn");
-
-
   }
 
   const form = useForm({

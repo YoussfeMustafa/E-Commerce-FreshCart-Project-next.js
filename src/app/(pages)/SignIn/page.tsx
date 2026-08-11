@@ -26,26 +26,7 @@ export default function SignIn() {
   });
   console.log(form);
 
-
-  async function handelRegister(data: LoginSchemaType) {
-    // console.log(data);
-
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signin`, {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    //   headers: { "content-type": "application/json" }
-    // });
-    // const finalData = await response.json();
-    // console.log(finalData);
-    // try {
-    //   toast.success('Successfully toasted!' ,{position:'top-center'})
-    // } catch (error) {
-
-    //   toast.error("This didn't work.",{position:'top-center'})
-
-    // }
-    // router.push("/")
-
+async function handelRegister(data: LoginSchemaType) {
     const response = await signIn('credentials', {
       email: data.email,
       password: data.password,
@@ -54,18 +35,17 @@ export default function SignIn() {
 
     console.log("NextAuth Response:", response);
 
-    if (response?.ok && !response?.error) {
-      toast.success('Successfully logged in!', { position: 'top-center' });
-      router.push("/");
-      // أحياناً التوجيه يحتاج تحديث بسيط للتأكد من أن الـ Session تم استيعابها
-      router.refresh();
-    } else {
-      // عرض رسالة الخطأ القادمة من المزود (Provider)
-      toast.error(response?.error || "Invalid credentials", { position: 'top-center' });
+    // التحقق من وجود الخطأ وعرضه باستخدام الـ Toast
+    if (response?.error) {
+      toast.error(response.error, { position: 'top-center' });
+      return; // إيقاف التنفيذ حتى لا ينتقل للصفحة الرئيسية
     }
 
+    // لو كل شيء تمام
+    toast.success('Successfully logged in!', { position: 'top-center' });
+    router.push("/");
+    router.refresh();
   }
-
 
   return <>
     <div className="relative min-h-screen">
